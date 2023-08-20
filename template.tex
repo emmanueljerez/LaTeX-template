@@ -1,0 +1,130 @@
+\documentclass[12pt,final]{article}
+
+%% BASIC MATH PACKAGES
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{cite}
+\usepackage{amsthm,amsmath,amssymb,hyperref,amsfonts,adjustbox}
+\numberwithin{equation}{section}
+\usepackage[shortlabels]{enumitem}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{imakeidx}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TIKZ CONFIGURATION FOR THE USE OF QUIVER
+
+\usepackage{tikz}
+\usetikzlibrary{cd}
+\usetikzlibrary{calc} % `calc` is necessary to draw curved arrows.
+\usetikzlibrary{decorations.pathmorphing} % `pathmorphing` is necessary to draw squiggly arrows.
+
+% A TikZ style for curved arrows of a fixed height, due to AndréC.
+\tikzset{curve/.style={settings={#1},to path={(\tikztostart)
+    .. controls ($(\tikztostart)!\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+    and ($(\tikztostart)!1-\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+    .. (\tikztotarget)\tikztonodes}},
+    settings/.code={\tikzset{quiver/.cd,#1}
+        \def\pv##1{\pgfkeysvalueof{/tikz/quiver/##1}}},
+    quiver/.cd,pos/.initial=0.35,height/.initial=0}
+
+% TikZ arrowhead/tail styles.
+\tikzset{tail reversed/.code={\pgfsetarrowsstart{tikzcd to}}}
+\tikzset{2tail/.code={\pgfsetarrowsstart{Implies[reversed]}}}
+\tikzset{2tail reversed/.code={\pgfsetarrowsstart{Implies}}}
+% TikZ arrow styles.
+\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theorem style configuration
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand*{\im}{\operatorname{im}}
+\newcommand*{\dom}{\operatorname{dom}}
+
+
+%opening
+\title{Basic template with a fast guide for vscode latex}
+\author{Emmanuel Jerez}
+
+
+\begin{document}
+ \maketitle
+
+ \section{Introduction}
+
+This is my template for my latex writing workflow. Here I'll explain some basic commands for the work with latex in VS Code + latex workshop.
+
+ \section{Theorem, proof and other environments}
+
+ \begin{definition}
+  This is a definition
+ \end{definition}
+
+ \begin{theorem}
+   This is a theorem
+ \end{theorem}
+
+ \begin{proof}
+  This is the \textbf{proof} environment.
+ \end{proof}
+
+ \begin{proposition}
+  A proposition
+ \end{proposition}
+
+ \begin{corollary}
+  A corollary
+ \end{corollary}
+
+ \begin{example}
+  An example
+ \end{example}
+ 
+\begin{remark}
+  remark
+\end{remark}
+
+\subsection*{Citations}
+
+LaTeX workshop have a citation helper. Inside the command \textbf{cite\{ \}} use the key combination \textbf{Ctrl + Shift + P} and write \textit{citation browser} to open the citation browser. 
+
+This is a cite \cite[Theorem 1]{SOLOMON1967603}.
+
+\subsection*{Jump to PDF and Jump from PDF}
+
+\begin{enumerate}[(J1)]
+  \item From the code we use \textbf{Ctrl + Alt + J} to jump to the corresponding PDF part.
+  \item From the PDF we do click while holding \textbf{Ctrl} to go from the PDF to the corresponding code part.
+\end{enumerate}
+
+ \section{Commutative diagrams with quiver}
+
+ For easy commutative diagram we use quiver, \href{https://q.uiver.app/}{https://q.uiver.app/}
+
+ \[\begin{tikzcd}
+	{\mathcal{A}} & {\mathcal{B}} \\
+	{ \mathcal{C}} & {\mathcal{C} \otimes \mathcal{B}} \\
+	&& \Omega
+	\arrow["\phi", hook, two heads, from=1-1, to=1-2]
+	\arrow["\eta"', squiggly, from=1-1, to=2-1]
+	\arrow["\shortmid"{marking}, maps to, from=1-2, to=2-2]
+	\arrow["\psi"', maps to, two heads, from=2-1, to=2-2]
+	\arrow["\alpha", curve={height=12pt}, shorten <=11pt, shorten >=17pt, Rightarrow, maps to, from=2-1, to=3-3]
+	\arrow["\beta", curve={height=-12pt}, dashed, tail, two heads, from=1-2, to=3-3]
+\end{tikzcd}\]
+
+ \bibliographystyle{unsrt}
+ \bibliography{azu}
+
+\end{document}
